@@ -5,7 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "ArUco Detection",
+            "name": "ArUco Detector 2",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "aruco_detector_2.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Test ArUco Detection",
             "type": "debugpy",
             "request": "launch",
             "program": "test_aruco_1.py",
