@@ -55,7 +55,16 @@ OBJETO_2_MARKER_ID = 4
 MARKERS_OBJETOS = [OBJETO_1_MARKER_ID, OBJETO_2_MARKER_ID]
 
 # All markers
-MARKERS = MARKERS_PAGINAS + MARKERS_OBJETOS
+MARKERS_TO_TRACK = MARKERS_PAGINAS + MARKERS_OBJETOS
 
 MARKER_SIZE = 0.05 # 5 cm
 
+# Eventos OSC
+OBJECT_ENTER_EVENT = "{OSC_PREFIX}/object/{marker_id}/scene/enters"
+OBJECT_LEAVES_EVENT = "{OSC_PREFIX}/object/{marker_id}/scene/leaves"
+PAGE_ENTER_EVENT = "{OSC_PREFIX}/page/{marker_id}/scene/enters"
+PAGE_LEAVES_EVENT = "{OSC_PREFIX}/page/{marker_id}/scene/leaves"
+OBJECT_POSITION_X_UPDATE_EVENT = "{OSC_PREFIX}/object/{marker_id}/position/x"
+OBJECT_POSITION_Y_UPDATE_EVENT = "{OSC_PREFIX}/object/{marker_id}/position/y"
+OBJECT_ROTATION_Z_UPDATE_EVENT = "{OSC_PREFIX}/object/{marker_id}/rotation/z"
+OBJECT_SCALE_UPDATE_EVENT = "{OSC_PREFIX}/object/{marker_id}/scale"

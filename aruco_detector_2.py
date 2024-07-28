@@ -3,6 +3,15 @@ import numpy as np
 from pythonosc import udp_client
 import settings
 
+def normalize_x_position(x, width):
+    # TODO: Ajustar de -1 a 1
+    return x
+
+def normalize_y_position(y, height):
+    #TODO: Ajustar de -1 a 1
+    return y
+
+
 # Initialize ArUco dictionary and parameters
 aruco_dict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_6X6_250)
 parameters = cv2.aruco.DetectorParameters()
@@ -64,12 +73,38 @@ while True:
 
         # Print markers entering the scene
         for marker_id in detected_ids - current_markers:
-            client.send_message(f"{settings.OSC_PREFIX}/object/{marker_id}/scene/enters", 1)
+            if marker_id in settings.MARKERS_PAGINAS:
+                client.send_message(
+                    settings.PAGE_ENTER_EVENT.format(
+                        OSC_PREFIX=settings.OSC_PREFIX, marker_id=marker_id
+                    ),
+                    1,
+                )
+            if marker_id in settings.MARKERS_OBJETOS:
+                client.send_message(
+                    settings.OBJECT_ENTER_EVENT.format(
+                        OSC_PREFIX=settings.OSC_PREFIX, marker_id=marker_id
+                    ),
+                    1,
+                )
             print(f"Marker {marker_id} entered the scene")
 
         # Print markers leaving the scene
         for marker_id in current_markers - detected_ids:
-            client.send_message(f"{settings.OSC_PREFIX}/object/{marker_id}/scene/leaves", 1)
+            if marker_id in settings.MARKERS_PAGINAS:
+                client.send_message(
+                    settings.PAGE_LEAVES_EVENT.format(
+                        OSC_PREFIX=settings.OSC_PREFIX, marker_id=marker_id
+                    ),
+                    1,
+                )
+            if marker_id in settings.MARKERS_OBJETOS:
+                client.send_message(
+                    settings.OBJECT_LEAVES_EVENT.format(
+                        OSC_PREFIX=settings.OSC_PREFIX, marker_id=marker_id
+                    ),
+                    1,
+                )
             print(f"Marker {marker_id} left the scene")
 
         # Update current markers
@@ -99,25 +134,53 @@ while True:
             yaw_degrees = np.degrees(yaw)
 
             # Normalize the position to range [-1, 1]
-            norm_x = (tvec[0][0][0] - frame_width / 2) / (frame_width / 2)
-            norm_y = (tvec[0][0][1] - frame_height / 2) / (frame_height / 2)
+            norm_x = normalize_x_position(tvec[0][0][0], frame_width)
+            norm_y = normalize_y_position(tvec[0][0][1], frame_height)
 
             # Send normalized position, rotation, and scale to Resolume including the marker ID
-            client.send_message(
-                f"{settings.OSC_PREFIX}/object/{marker_id}/position/x", tvec[0][0][0]
-            )
-            client.send_message(
-                f"{settings.OSC_PREFIX}/object/{marker_id}/position/y", tvec[0][0][1]
-            )
-            client.send_message(
-                f"{settings.OSC_PREFIX}/object/{marker_id}/rotation/z", float(yaw_degrees)
-            )
-            client.send_message(f"{settings.OSC_PREFIX}/object/{marker_id}/scale", float(scale))
+            if marker_id in settings.MARKERS_OBJETOS:
+                client.send_message(
+                    settings.OBJECT_POSITION_X_UPDATE_EVENT.format(
+                        OSC_PREFIX=settings.OSC_PREFIX, marker_id=marker_id
+                    ),
+                    norm_x,
+                )
+                client.send_message(
+                    settings.OBJECT_POSITION_Y_UPDATE_EVENT.format(
+                        OSC_PREFIX=settings.OSC_PREFIX, marker_id=marker_id
+                    ),
+                    norm_y,
+                )
+                client.send_message(
+                    settings.OBJECT_ROTATION_Z_UPDATE_EVENT.format(
+                        OSC_PREFIX=settings.OSC_PREFIX, marker_id=marker_id
+                    ),
+                    yaw_degrees,
+                )
+                client.send_message(
+                    settings.OBJECT_SCALE_UPDATE_EVENT.format(
+                        OSC_PREFIX=settings.OSC_PREFIX, marker_id=marker_id
+                    ),
+                    float(scale),
+                )
 
     else:
         # If no markers detected, print markers leaving the scene
         for marker_id in current_markers:
-            client.send_message(f"{settings.OSC_PREFIX}/object/{marker_id}/scene/leaves", 1)
+            if marker_id in settings.MARKERS_PAGINAS:
+                client.send_message(
+                    settings.PAGE_LEAVES_EVENT.format(
+                        OSC_PREFIX=settings.OSC_PREFIX, marker_id=marker_id
+                    ),
+                    1,
+                )
+            if marker_id in settings.MARKERS_OBJETOS:
+                client.send_message(
+                    settings.OBJECT_LEAVES_EVENT.format(
+                        OSC_PREFIX=settings.OSC_PREFIX, marker_id=marker_id
+                    ),
+                    1,
+                )
             print(f"Marker {marker_id} left the scene")
         current_markers.clear()
 
