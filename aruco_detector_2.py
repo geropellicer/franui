@@ -3,12 +3,14 @@ import numpy as np
 from pythonosc import udp_client
 import settings
 
+
 def normalize_x_position(x, width):
     # TODO: Ajustar de -1 a 1
     return x
 
+
 def normalize_y_position(y, height):
-    #TODO: Ajustar de -1 a 1
+    # TODO: Ajustar de -1 a 1
     return y
 
 
@@ -80,12 +82,24 @@ while True:
                     ),
                     1,
                 )
+                print("KEY: ")
+                print(
+                    settings.PAGE_ENTER_EVENT.format(
+                        OSC_PREFIX=settings.OSC_PREFIX, marker_id=marker_id
+                    )
+                )
             if marker_id in settings.MARKERS_OBJETOS:
                 client.send_message(
                     settings.OBJECT_ENTER_EVENT.format(
                         OSC_PREFIX=settings.OSC_PREFIX, marker_id=marker_id
                     ),
                     1,
+                )
+                print("KEY: ")
+                print(
+                    settings.OBJECT_ENTER_EVENT.format(
+                        OSC_PREFIX=settings.OSC_PREFIX, marker_id=marker_id
+                    )
                 )
             print(f"Marker {marker_id} entered the scene")
 
