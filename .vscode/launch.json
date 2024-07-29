@@ -19,6 +19,20 @@
             "console": "integratedTerminal"
         },
         {
+            "name": "Calibrate",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "callibrate.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Generate Calibration Images",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "generate_callibration_imgs.py",
+            "console": "integratedTerminal"
+        },
+        {
             "name": "OSC Server",
             "type": "debugpy",
             "request": "launch",

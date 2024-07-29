@@ -8,7 +8,7 @@ CAMERA_PIXELS_WIDTH = 1280
 CAMERA_PIXELS_HEIGHT = 720
 
 TECLA_SALIR = ord("q")
-CARPETA_IMAGENES_CALIBRACION = "/home/gero/Documents/franui/callibration/calibration_images"
+CARPETA_IMAGENES_CALIBRACION = "/home/gero/Documents/franui/callibration"
 
 CALLIBRATION_MARKER_CORNERS_X = 9
 CALLIBRATION_MARKER_CORNERS_Y = 6

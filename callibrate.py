@@ -1,20 +1,13 @@
 import cv2
 import numpy as np
 import glob
-# import settings
-
-CARPETA_IMAGENES_CALIBRACION = "/home/gero/Documents/franui/callibration"
-
-CALLIBRATION_MARKER_CORNERS_X = 9
-CALLIBRATION_MARKER_CORNERS_Y = 6
-CALLIBRATION_MARKER_SQUARE_SIZE = 0.02 # 20 cm
-
+import settings
 
 # Define the chessboard size (number of inner corners)
-chessboard_size = (CALLIBRATION_MARKER_CORNERS_X, CALLIBRATION_MARKER_CORNERS_Y)
+chessboard_size = (settings.CALLIBRATION_MARKER_CORNERS_X, settings.CALLIBRATION_MARKER_CORNERS_Y)
 
 # Real world dimensions of the chessboard squares (in meters)
-square_size = CALLIBRATION_MARKER_SQUARE_SIZE
+square_size = settings.CALLIBRATION_MARKER_SQUARE_SIZE
 
 # Termination criteria for cornerSubPix
 criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
@@ -29,7 +22,7 @@ objpoints = []  # 3D points in real world space
 imgpoints = []  # 2D points in image plane
 
 # Load all images
-images = glob.glob(f'{CARPETA_IMAGENES_CALIBRACION}/calibration_images/*.jpg')  # Change the path to your images
+images = glob.glob(f'{settings.CARPETA_IMAGENES_CALIBRACION}/calibration_images/*.jpg')  # Change the path to your images
 count = 0
 
 for fname in images:
