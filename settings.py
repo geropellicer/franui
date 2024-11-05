@@ -68,3 +68,8 @@ OBJECT_POSITION_X_UPDATE_EVENT = "{OSC_PREFIX}/object/{marker_id}/position/x"
 OBJECT_POSITION_Y_UPDATE_EVENT = "{OSC_PREFIX}/object/{marker_id}/position/y"
 OBJECT_ROTATION_Z_UPDATE_EVENT = "{OSC_PREFIX}/object/{marker_id}/rotation/z"
 OBJECT_SCALE_UPDATE_EVENT = "{OSC_PREFIX}/object/{marker_id}/scale"
+
+OSC_IP_RESOLUME="localhost"
+OSC_PORT_RESOLUME=1234
+OSC_IP_UNITY="localhost"
+OSC_PORT_UNITY=1223
