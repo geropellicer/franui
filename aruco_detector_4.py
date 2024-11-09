@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from pythonosc import udp_client
 import settings
-from custom_arucos import get_custom_arucos_dict, save_custom_arucos_images
+from custom_arucos_2 import get_custom_arucos_dict, save_custom_arucos_images
 
 # Initialize OSC client to send data to Resolume
 resolume_client = udp_client.SimpleUDPClient(settings.OSC_IP_RESOLUME, settings.OSC_PORT_RESOLUME)
@@ -29,12 +29,22 @@ def send_page_change(marker_id):
         ),
         1,
     )
+    unity_client.send_message(
+        settings.PAGE_ENTER_EVENT.format(
+            OSC_PREFIX=settings.OSC_PREFIX, marker_id=marker_id
+        ),
+        1,
+    )
 
     MARKER_ID_TO_COLUMN_ID = {
+        0: "0",
         1: "1",
         2: "2",
         3: "3",
         4: "4",
+        5: "5",
+        6: "6",
+        7: "7"
     }
 
     column_id = MARKER_ID_TO_COLUMN_ID[marker_id]
