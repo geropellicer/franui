@@ -71,16 +71,11 @@ public class CasitaEvents : MonoBehaviour
     {
         if (plane != null)
         {
-            // Get the bounds of the plane
-            Renderer planeRenderer = plane.GetComponent<Renderer>();
-            float planeWidth = planeRenderer.bounds.size.x;
-            float planeLeftExtreme = planeRenderer.bounds.min.x;
-            float planeRightExtreme = planeRenderer.bounds.max.x;
+            // Map normalized pos (-1 to 1) to plane's local X dimensions
+            float planeWidth = plane.transform.localScale.x;
+            float mappedX = pos * 0.5f * planeWidth;
 
-            // Map the received value to the plane's X bounds
-            float mappedX = Mathf.Lerp(planeLeftExtreme, planeRightExtreme, Mathf.InverseLerp(minXValue, maxXValue, pos));
-
-            // Update the object's position
+            // Update the object's local position
             Vector3 newPosition = transform.localPosition;
             newPosition.x = mappedX;
             transform.localPosition = newPosition;
@@ -95,16 +90,11 @@ public class CasitaEvents : MonoBehaviour
     {
         if (plane != null)
         {
-            // Get the bounds of the plane
-            Renderer planeRenderer = plane.GetComponent<Renderer>();
-            float planeWidth = planeRenderer.bounds.size.z;
-            float planeLeftExtreme = planeRenderer.bounds.min.z;
-            float planeRightExtreme = planeRenderer.bounds.max.z;
+            // Map normalized pos (-1 to 1) to plane's local Z dimensions
+            float planeDepth = plane.transform.localScale.z;
+            float mappedZ = pos * 0.5f * planeDepth;
 
-            // Map the received value to the plane's X bounds
-            float mappedZ = Mathf.Lerp(planeLeftExtreme, planeRightExtreme, Mathf.InverseLerp(minYValue, maxYValue, pos));
-
-            // Update the object's position
+            // Update the object's local position
             Vector3 newPosition = transform.localPosition;
             newPosition.z = mappedZ;
             transform.localPosition = newPosition;

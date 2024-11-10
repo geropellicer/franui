@@ -164,6 +164,9 @@ fx, fy, cx, cy, k1, k2, p1, p2, k3 = (
 camera_matrix = np.array([[fx, 0, cx], [0, fy, cy], [0, 0, 1]], dtype=np.float32)
 dist_coeffs = np.array([k1, k2, p1, p2, k3], dtype=np.float32)
 
+def normalize_position(value, max_value):
+    return (value / max_value) * 2 - 1  # Normalizes to [-1, 1]
+
 while True:
     ret, frame = cap.read()
     if not ret:
@@ -228,9 +231,14 @@ while True:
             # Convert yaw from radians to degrees
             yaw_degrees = np.degrees(yaw)
 
-            # Normalize the position to range [-1, 1]
-            norm_x = normalize_x_position(tvec[0][0][0], frame_width)
-            norm_y = normalize_y_position(tvec[0][0][1], frame_height)
+            # Calculate marker center in image coordinates
+            markerCorners = corner[0]
+            center_x = np.mean(markerCorners[:, 0])
+            center_y = np.mean(markerCorners[:, 1])
+
+            # Normalize positions to [-1, 1]
+            norm_x = normalize_position(center_x, frame_width)
+            norm_y = normalize_position(center_y, frame_height)
 
             # Send normalized position, rotation, and scale to Resolume including the marker ID
             if marker_id in settings.MARKERS_OBJETOS:
